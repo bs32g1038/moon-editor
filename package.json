@@ -1,0 +1,31 @@
+{
+  "name": "moon-editor",
+  "version": "1.0.0.aplha.0",
+  "description": "a beautiful editor",
+  "main": "index.js",
+  "scripts": {
+    "umd": "parcel serve editor/index.js --global myvariable",
+    "dev": "parcel example/index.html --global MoonEditor",
+    "dev:upload": "node example/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "bs32g1038@163.com",
+  "license": "MIT",
+  "devDependencies": {
+    "@vue/component-compiler-utils": "^3.1.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "multer": "^1.4.2",
+    "parcel": "^1.12.4",
+    "sass": "^1.24.0",
+    "tiptap": "^1.26.6",
+    "tiptap-extensions": "^1.28.6",
+    "vue": "^2.6.11",
+    "vue-i18n": "^8.15.3",
+    "vue-template-compiler": "^2.6.11"
+  },
+  "dependencies": {
+    "vue-hot-reload-api": "^2.3.4",
+    "whatwg-fetch": "^3.0.0"
+  }
+}
