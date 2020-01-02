@@ -1,0 +1,117 @@
+.Input-wrapper {
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    align-items: center;
+    width: 180px;
+    height: 34px;
+    padding: 4px 10px;
+    font-size: 14px;
+    background: #fff;
+    border: 1px solid #ebebeb;
+    border-radius: 3px;
+    box-sizing: border-box;
+    transition: background 0.2s, border 0.2s;
+}
+
+.Input-wrapper.Input-wrapper--large {
+    height: auto;
+    padding: 6px 12px;
+}
+
+.Input-wrapper.Input-wrapper--spread {
+    width: 100%;
+}
+
+.LinkModal-input {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.Input {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1;
+    flex: 1 1;
+    padding: 0;
+    overflow: hidden;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    background: transparent;
+    border: none;
+    resize: none;
+}
+
+input.Input {
+    color: #1a1a1a;
+    height: 24px;
+    line-height: 24px;
+}
+
+.LinkModal-input .Input {
+    margin-left: 8px;
+}
+
+.LinkModal-input + .LinkModal-input {
+    margin-top: 10px;
+}
+
+.Input:focus {
+    outline: none;
+}
+
+.ModalButtonGroup--horizontal {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    margin-top: 15px;
+}
+
+.Button {
+    display: inline-block;
+    padding: 0 16px;
+    font-size: 14px;
+    line-height: 32px;
+    color: #8590a6;
+    text-align: center;
+    cursor: pointer;
+    background: none;
+    border: 1px solid;
+    border-radius: 3px;
+    &:focus {
+        outline: none;
+    }
+}
+
+.ModalButtonGroup--horizontal .Button {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1;
+    flex: 1 1;
+}
+.Button--grey {
+    color: #8590a6;
+    border-color: #8590a6;
+}
+
+.ModalButtonGroup--horizontal .Button + .Button {
+    margin-left: 16px;
+}
+
+.Button--primary.Button--blue {
+    color: #fff;
+    background-color: #0084ff;
+}
+
+.Button:disabled {
+    cursor: default;
+    opacity: 0.5;
+    pointer-events: none;
+}

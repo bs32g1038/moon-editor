@@ -4,6 +4,8 @@
 
 **Moon Editor** —— 一个漂亮，轻量级的 web 富文本编辑器，配置方便，使用简单。支持 IE10+ 浏览器。
 
+![moon-editor](https://github.com/bs32g1038/moon-editor/blob/master/docs/images/screenshot-1.png?raw=true)
+
 同时支持:
 
 -   React

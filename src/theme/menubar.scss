@@ -1,0 +1,98 @@
+.menubar {
+  margin-bottom: 1rem;
+  transition: visibility 0.2s 0.4s, opacity 0.2s 0.4s;
+  margin: 0 auto;
+  max-width: 50em;
+  border-top: 1px solid rgba(26, 26, 26, 0.08);
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 5px 13px;
+  background: #fff;
+  border-bottom: 1px solid #ebebeb;
+  user-select: none;
+  position: relative;
+
+  &.is-hidden {
+    visibility: hidden;
+    opacity: 0;
+  }
+
+  &.is-focused {
+    visibility: visible;
+    opacity: 1;
+    transition: visibility 0.2s, opacity 0.2s;
+  }
+
+  &__button {
+    color: #8590a6;
+    text-align: center;
+    font-size: 16px;
+    padding: 0;
+    line-height: inherit;
+    background-color: transparent;
+    border-radius: 0;
+    align-items: center;
+    border: 1px solid transparent;
+    box-sizing: border-box;
+    cursor: pointer;
+    display: inline-flex;
+    height: 26px;
+    white-space: nowrap;
+    position: relative;
+    margin: 0 2px;
+    &:after,
+    &:before {
+      position: absolute;
+      z-index: 10;
+      top: 100%;
+      left: 50%;
+      pointer-events: none;
+      opacity: 0;
+      transform: translateX(-50%) translateY(-5px);
+      transition: opacity 0.3s, transform 0.3s;
+    }
+    &:before {
+      margin-top: 3px;
+      border: 5px solid transparent;
+      border-bottom-color: #21242a;
+      content: "";
+    }
+    &:after {
+      margin-top: 12px;
+      padding: 5px;
+      background-color: #21242a;
+      border-radius: 2px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      color: #fff;
+      font-size: 12px;
+      line-height: 16px;
+      white-space: nowrap;
+      content: attr(data-tooltip);
+    }
+    &:hover:after,
+    &:hover:before {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+    &.is-active {
+      svg {
+        fill: #0084ff;
+      }
+      color: #0084ff;
+    }
+    span {
+      margin-left: 5px;
+      margin-right: 5px;
+    }
+    &:disabled {
+      cursor: default;
+      opacity: 0.5;
+      pointer-events: none;
+    }
+  }
+
+  span#{&}__button {
+    font-size: 13.3333px;
+  }
+}

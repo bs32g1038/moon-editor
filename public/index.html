@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>moon.png">
+    <title>moon-editor</title>
+  </head>
+  <body>
+    <noscript>
+      <strong>We're sorry but moon-editor doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+    </noscript>
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+  </body>
+  <script>
+      MoonEditor({
+        isImageBase64: true,  // 当为true时，编辑器不会执行上传服务器的动作
+        uploadServer: {
+            url: 'http://127.0.0.1:3000/upload',
+            method: 'post'
+        },
+        content: `
+          <h2>
+            基于tiptap的编辑器,
+          </h2>
+          <p>
+            这是一个开箱即用，可灵活配置，漂亮的编辑器.
+          </p>
+          <pre><code>body { display: none; }</code></pre>
+          <ul>
+            <li>
+              我是一个无序列表
+            </li>
+            <li>
+              这是我的子元素
+            </li>
+          </ul>
+          <blockquote>
+            这款编辑器实在太棒了，我叫它做月亮编辑器 👏👏😎😎
+            <br />
+            – bs32g1038
+          </blockquote>
+          <p>
+          <img src="<%= BASE_URL %>moon.png" />
+          </p>
+          <br />
+        `
+    });
+  </script>
+</html>

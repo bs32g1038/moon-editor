@@ -1,31 +1,48 @@
 {
   "name": "moon-editor",
-  "version": "1.0.0.aplha.0",
+  "version": "1.0.0-alpha.1",
   "description": "a beautiful editor",
   "main": "index.js",
+  "private": true,
   "scripts": {
-    "umd": "parcel serve editor/index.js --global myvariable",
-    "dev": "parcel example/index.html --global MoonEditor",
-    "dev:upload": "node example/server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "bs32g1038@163.com",
-  "license": "MIT",
-  "devDependencies": {
-    "@vue/component-compiler-utils": "^3.1.0",
-    "cors": "^2.8.5",
-    "express": "^4.17.1",
-    "multer": "^1.4.2",
-    "parcel": "^1.12.4",
-    "sass": "^1.24.0",
-    "tiptap": "^1.26.6",
-    "tiptap-extensions": "^1.28.6",
-    "vue": "^2.6.11",
-    "vue-i18n": "^8.15.3",
-    "vue-template-compiler": "^2.6.11"
+    "dev": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint",
+    "lib": "vue-cli-service build --target lib --name moon-editor src/main.js",
+    "server": "node server/index.js"
   },
   "dependencies": {
-    "vue-hot-reload-api": "^2.3.4",
+    "core-js": "^3.4.4",
+    "tiptap-extensions": "^1.28.6",
+    "vue": "^2.6.10"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^4.1.0",
+    "@vue/cli-plugin-eslint": "^4.1.0",
+    "@vue/cli-service": "^4.1.0",
+    "@vue/eslint-config-prettier": "^5.0.0",
+    "babel-eslint": "^10.0.3",
+    "cors": "^2.8.5",
+    "eslint": "^5.16.0",
+    "eslint-plugin-prettier": "^3.1.1",
+    "eslint-plugin-vue": "^5.0.0",
+    "express": "^4.17.1",
+    "lint-staged": "^9.5.0",
+    "multer": "^1.4.2",
+    "node-sass": "^4.12.0",
+    "prettier": "^1.19.1",
+    "sass-loader": "^8.0.0",
+    "vue-i18n": "^8.15.3",
+    "vue-template-compiler": "^2.6.10",
     "whatwg-fetch": "^3.0.0"
+  },
+  "gitHooks": {
+    "pre-commit": "lint-staged"
+  },
+  "lint-staged": {
+    "src/*.{js,vue}": [
+      "vue-cli-service lint",
+      "git add"
+    ]
   }
 }
