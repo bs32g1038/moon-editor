@@ -1,6 +1,6 @@
 .editor {
   position: relative;
-  max-width: 30rem;
+  max-width: 40rem;
   margin: 0 auto 5rem auto;
 
   &__content {
@@ -9,6 +9,9 @@
     overflow-wrap: break-word;
     word-wrap: break-word;
     word-break: break-word;
+    max-height: 400px;
+    overflow: hidden;
+    overflow-y: auto;
 
     * {
       caret-color: currentColor;

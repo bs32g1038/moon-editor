@@ -6,12 +6,11 @@ import './theme/main.scss';
 
 Vue.use(VueI18n);
 
-const i18n = new VueI18n({
-    locale: 'zh_cn',
-    messages,
-});
-
 const Editor = options => {
+    const i18n = new VueI18n({
+        locale: options.locale || 'zh_cn',
+        messages,
+    });
     new Vue({
         el: '#app',
         i18n: i18n,

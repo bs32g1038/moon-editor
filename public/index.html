@@ -16,7 +16,9 @@
   </body>
   <script>
       MoonEditor({
+        locale: 'zh_cn', // zh_cn or en
         isImageBase64: true,  // 当为true时，编辑器不会执行上传服务器的动作
+        isImageExtensions: true, // 当为false时，编辑器不会开启图片的拓展支持，比如说修改图片尺寸
         uploadServer: {
             url: 'http://127.0.0.1:3000/upload',
             method: 'post'
@@ -46,7 +48,10 @@
           <img src="<%= BASE_URL %>moon.png" />
           </p>
           <br />
-        `
+        `,
+        onChange: function(html){
+          console.log(html)
+        }
     });
   </script>
 </html>

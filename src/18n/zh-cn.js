@@ -18,5 +18,9 @@ export default {
         redo: '重做',
         undo: '撤销',
         image: '插入图片',
+        imageLeftFloat: '图片左浮动',
+        imageRightFloat: '图片右浮动',
+        imageEraser: '清除图片格式',
+        confirm: '确定',
     },
 };

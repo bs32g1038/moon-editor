@@ -42,26 +42,82 @@
                 >
                     <CodeIcon />
                 </button>
-                <button class="menubar__button" :data-tooltip="$t('message.image')" @click="uploadFn(commands.image)">
-                    <ButtonImageIcon />
-                </button>
-                <button
-                    class="menubar__button"
-                    :class="{ 'is-active': isActive.code() }"
-                    @click="commands.code"
-                    :data-tooltip="$t('message.code')"
+                <div
+                    style="position: relative"
+                    :style="
+                        (isActive.image() ||
+                            isActive.imageLeftFloat() ||
+                            isActive.imageRightFloat() ||
+                            isActive.imageEraser() ||
+                            isActive.imageResize()) && { border: '1px dashed #ccc' }
+                    "
                 >
-                    <TextIndentLeftIcon />
-                </button>
-                <button
-                    class="menubar__button"
-                    :class="{ 'is-active': isActive.code() }"
-                    @click="commands.code"
-                    :data-tooltip="$t('message.code')"
-                >
-                    <TextIndentRightIcon />
-                </button>
-
+                    <button
+                        class="menubar__button"
+                        :data-tooltip="$t('message.image')"
+                        @click="uploadFn(commands.image)"
+                    >
+                        <ButtonImageIcon />
+                    </button>
+                    <transition name="slide-fade">
+                        <span
+                            class="moon-image-ctrl-wrap"
+                            v-if="
+                                isImageExtensions &&
+                                    (isActive.image() ||
+                                        isActive.imageLeftFloat() ||
+                                        isActive.imageRightFloat() ||
+                                        isActive.imageEraser() ||
+                                        isActive.imageResize())
+                            "
+                        >
+                            <button
+                                class="menubar__button"
+                                :class="{ 'is-active': isActive.imageLeftFloat() }"
+                                @click="commands.imageLeftFloat"
+                                :data-tooltip="$t('message.imageLeftFloat')"
+                                key="imageLeftFloat"
+                            >
+                                <TextIndentLeftIcon />
+                            </button>
+                            <button
+                                class="menubar__button"
+                                :class="{ 'is-active': isActive.imageRightFloat() }"
+                                @click="commands.imageRightFloat"
+                                :data-tooltip="$t('message.imageRightFloat')"
+                                key="imageRightFloat"
+                            >
+                                <TextIndentRightIcon />
+                            </button>
+                            <button
+                                class="menubar__button"
+                                @click="commands.imageEraser"
+                                :data-tooltip="$t('message.imageEraser')"
+                            >
+                                <EraserIcon />
+                            </button>
+                            <div class="moon-image-resize-input__wrap" key="imageResize">
+                                <div class="moon-image-resize-input__item">
+                                    <input type="text" v-model="imageWidth" />
+                                    <span> px</span>
+                                </div>
+                                <span class="moon-image-resize-input__separator"> x </span>
+                                <div class="moon-image-resize-input__item">
+                                    <input type="text" v-model="imageHeight" />
+                                    <span> px</span>
+                                </div>
+                            </div>
+                            <button
+                                class="moon-image-resize-input__button"
+                                type="button"
+                                key="confirm"
+                                @click="imageResize"
+                            >
+                                {{ $t('message.confirm') }}
+                            </button>
+                        </span>
+                    </transition>
+                </div>
                 <button
                     class="menubar__button"
                     :class="{ 'is-active': isActive.heading({ level: 1 }) }"
@@ -123,10 +179,7 @@
                     :class="{ 'is-active': isActive.link() }"
                     :data-tooltip="$t('message.link')"
                     :disabled="disabledLinkButton"
-                    @click="
-                        isShowLinkDialog = true;
-                        gCmds = commands;
-                    "
+                    @click="isShowLinkDialog = true"
                 >
                     <LinkIcon />
                 </button>
@@ -178,6 +231,8 @@ import LinkIcon from '../icon/link';
 import TextIndentLeftIcon from '../icon/indent-left';
 import TextIndentRightIcon from '../icon/indent-right';
 import ButtonImageIcon from '../icon/image';
+import EraserIcon from '../icon/eraser';
+
 import LinkDialog from '../link-dialog';
 // import imageURL from '../../../example/test.jpg';
 
@@ -203,6 +258,11 @@ import {
     History,
 } from 'tiptap-extensions';
 
+import ImageLeftFloat from '../../extensions/image-left-float';
+import ImageRightFloat from '../../extensions/image-right-float';
+import ImageResize from '../../extensions/image-resize';
+import ImageEraser from '../../extensions/image-eraser';
+
 export default {
     props: {
         content: {
@@ -223,10 +283,19 @@ export default {
                 default: 'post',
             },
         },
+        isImageExtensions: {
+            type: Boolean,
+            default: true,
+        },
+        onChange: {
+            type: Function,
+            default: null,
+        },
     },
     components: {
         EditorContent,
         EditorMenuBar,
+        // EditorMenuBubble,
         BoldIcon,
         ItalicIcon,
         StrikeIcon,
@@ -244,6 +313,7 @@ export default {
         ButtonImageIcon,
         TextIndentLeftIcon,
         TextIndentRightIcon,
+        EraserIcon,
     },
     data() {
         return {
@@ -254,10 +324,14 @@ export default {
             defaultOptions: {
                 ...this.$props,
             },
+            currentSelectedImage: null,
+            imageWidth: '',
+            imageHeight: '',
         };
     },
     mounted() {
         this.editor = new Editor({
+            content: this.content,
             extensions: [
                 new Blockquote(),
                 new BulletList(),
@@ -277,6 +351,10 @@ export default {
                 new Strike(),
                 new Underline(),
                 new History(),
+                new ImageLeftFloat(),
+                new ImageRightFloat(),
+                new ImageResize(),
+                new ImageEraser(),
             ],
             onInit: () => {},
             onTransaction: ({ state }) => {
@@ -288,17 +366,40 @@ export default {
                     this.disabledLinkButton = true;
                 }
             },
-            content: this.content,
+            onUpdate: ({ getHTML }) => {
+                const newContent = getHTML();
+                if (this.onChange) {
+                    this.onChange(newContent);
+                }
+            },
         });
+        this.gCmds = this.editor.commands;
     },
+
     methods: {
+        imageResize() {
+            this.gCmds &&
+                this.gCmds.imageResize &&
+                this.gCmds.imageResize({
+                    width: this.imageWidth,
+                    height: this.imageHeight,
+                });
+        },
         ok(link) {
             this.gCmds.link({ href: link });
             this.isShowLinkDialog = false;
         },
-        onContentClickEventDelegation: e => {
+        onContentClickEventDelegation(e) {
             if (e.target.nodeName.toLowerCase() == 'img') {
-                console.log('img');
+                this.imageWidth = e.target.offsetWidth;
+                this.imageHeight = e.target.offsetHeight;
+                this.currentSelectedImage = e.target;
+                e.target.style.border = '1px solid #ccc';
+            } else {
+                if (this.currentSelectedImage) {
+                    this.currentSelectedImage.style.border = null;
+                    this.currentSelectedImage = null;
+                }
             }
         },
         uploadFn(command) {
